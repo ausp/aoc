@@ -78,13 +78,13 @@ func main() {
 	r := bufio.NewReader(f)
 	s := bufio.NewScanner(r)
 
-	silverStarAnswer := star1(s)
-	fmt.Printf("Result 1: %v\n", silverStarAnswer)
+	firstAnswer := star1(s)
+	fmt.Printf("Result 1: %v\n", firstAnswer)
 
 	rf, err := os.ReadFile("./input.txt")
 	check(err)
 
-	goldStarAnswer := star2(rf, 3)
-	fmt.Printf("Result 2: %v\n", goldStarAnswer)
+	secondAnswer := star2(rf, 3)
+	fmt.Printf("Result 2: %v\n", secondAnswer)
 
 }
