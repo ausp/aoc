@@ -104,6 +104,12 @@ func moveCrate(move []int, crates [][]string) [][]string {
 	return crates
 }
 
+func moveCrateStack(move []int, crates [][]string) [][]string {
+	crates[move[2]-1] = append(crates[move[2]-1], crates[move[1]-1][len(crates[move[1]-1])-move[0]:]...)
+	crates[move[1]-1] = crates[move[1]-1][:len(crates[move[1]-1])-move[0]]
+	return crates
+}
+
 func readResult(crates [][]string) string {
 	var sa []string
 	for _, cr := range crates {
@@ -112,9 +118,15 @@ func readResult(crates [][]string) string {
 	return strings.Join(sa, "")
 }
 
-func moveCrates(moves [][]int, crates [][]string) string {
-	for _, m := range moves {
-		moveCrate(m, crates)
+func moveCrates(moves [][]int, crates [][]string, stacking bool) string {
+	if !stacking {
+		for _, m := range moves {
+			moveCrate(m, crates)
+		}
+	} else {
+		for _, m := range moves {
+			moveCrateStack(m, crates)
+		}
 	}
 
 	return readResult(crates)
@@ -129,10 +141,27 @@ func star1(s string) string {
 	crates = orient(crates)
 	moves := readMoves(d[1])
 
-	result := moveCrates(moves, crates)
+	result := moveCrates(moves, crates, false)
 
-	fmt.Printf("%v\n", moves)
-	fmt.Printf("%v\n", crates)
+	// fmt.Printf("%v\n", moves)
+	// fmt.Printf("%v\n", crates)
+
+	return result
+}
+
+func star2(s string) string {
+
+	d := strings.Split(s, "\n\n")
+
+	crates := readCrates(d[0])
+	crates = transpose(crates)
+	crates = orient(crates)
+	moves := readMoves(d[1])
+
+	result := moveCrates(moves, crates, true)
+
+	// fmt.Printf("%v\n", moves)
+	// fmt.Printf("%v\n", crates)
 
 	return result
 }
@@ -149,4 +178,7 @@ func main() {
 
 	firstAnswer := star1(sb.String())
 	fmt.Printf("Result 1: %v\n", firstAnswer)
+
+	secondAnswer := star2(sb.String())
+	fmt.Printf("Result 2: %v\n", secondAnswer)
 }
