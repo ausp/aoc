@@ -13,6 +13,7 @@ func check(e error) {
 		panic(e)
 	}
 }
+
 func atoiWrap(s string) int {
 	i, err := strconv.Atoi(s)
 	check(err)
